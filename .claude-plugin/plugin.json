@@ -1,0 +1,13 @@
+{
+  "name": "claude-statusbar",
+  "description": "Two-line status bar: directory, git, PR, model, session, context and 5h/7d quotas. No network, no credentials.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Lounis Bou",
+    "email": "lounis.bou@gmail.com"
+  },
+  "homepage": "https://github.com/LounisBou/claude-statusbar",
+  "repository": "https://github.com/LounisBou/claude-statusbar",
+  "license": "MIT",
+  "keywords": ["statusline", "statusbar", "quota", "rate-limits", "git", "bash"]
+}
