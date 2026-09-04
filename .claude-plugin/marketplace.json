@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "LounisBou's plugins",
-    "version": "1.0.0"
+    "version": "1.1.0"
   },
   "plugins": [
     {
@@ -14,7 +14,20 @@
       "source": "./",
       "description": "Two-line status bar: directory, enriched git, PR, model, session name, context and 5h/7d quotas read natively from the stdin payload.",
       "version": "1.0.0",
-      "author": { "name": "Lounis Bou" }
+      "author": {
+        "name": "Lounis Bou"
+      }
+    },
+    {
+      "name": "claude-orchestrator",
+      "source": {
+        "source": "github",
+        "repo": "LounisBou/claude-orchestrator"
+      },
+      "description": "Orchestrate implementer sessions from one supervising session: briefs, evidence-based reviews, rotation, succession, tab tooling, context gauge.",
+      "author": {
+        "name": "Lounis Bou"
+      }
     }
   ]
 }
