@@ -21,6 +21,8 @@ ctx: 26% │ 5h: 47% ▓▓▓▓▓░░░░░ → 2h13 │ 7d: 50% ▓▓�
 /claude-statusbar:install
 ```
 
+The `lounisbou` marketplace also lists [claude-orchestrator](https://github.com/LounisBou/claude-orchestrator), installable the same way once the marketplace is added.
+
 That last step is required: `statusLine` is a key in `settings.json` and a
 plugin manifest cannot declare it. The command writes it for you.
 
