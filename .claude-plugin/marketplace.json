@@ -24,11 +24,11 @@
         "source": "github",
         "repo": "LounisBou/claude-orchestrator"
       },
-      "description": "Orchestrate implementer sessions from one supervising session: briefs, the agents' lifecycle (launch, verify, control, terminate, replace), evidence-based reviews, rotation, succession, agent and progress reports, tab tooling, context gauge.",
+      "description": "Orchestrate implementer sessions from one supervising session: briefs, the agents' lifecycle (launch, verify, control, terminate, replace), evidence-based reviews, rotation, succession, agent and progress reports, the decision round, tab tooling, context gauge.",
       "author": {
         "name": "Lounis Bou"
       },
-      "version": "0.4.1"
+      "version": "0.4.2"
     }
   ]
 }
