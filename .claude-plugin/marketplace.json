@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "LounisBou's plugins",
-    "version": "2.0.0"
+    "version": "2.0.1"
   },
   "plugins": [
     {
@@ -61,7 +61,7 @@
         "repo": "LounisBou/claude-norms"
       },
       "description": "Evidence-based code norms: eight review agents, a parallel conformity check, and a learner that turns resolved PR review threads into project rules. Depends on the github plugin.",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "author": {
         "name": "Lounis Bou"
       }
