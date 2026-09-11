@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "LounisBou's plugins",
-    "version": "2.0.1"
+    "version": "2.1.0"
   },
   "plugins": [
     {
@@ -37,7 +37,7 @@
         "repo": "LounisBou/claude-review"
       },
       "description": "Interactive PR review: item-by-item walkthrough, comment processing, and an autonomous review-fix loop. Depends on the github plugin; layers on pr-review-toolkit and code-review.",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "author": {
         "name": "Lounis Bou"
       }
@@ -49,7 +49,7 @@
         "repo": "LounisBou/claude-github"
       },
       "description": "GitHub API from the standard library: pull requests, review threads, comments, reviews, labels, issues, search and image attachments, without the gh CLI.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "Lounis Bou"
       }
