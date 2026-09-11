@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "LounisBou's plugins",
-    "version": "2.2.0"
+    "version": "2.2.1"
   },
   "plugins": [
     {
@@ -61,7 +61,7 @@
         "repo": "LounisBou/claude-implement"
       },
       "description": "The feature lifecycle as five commands: brainstorm and plan a feature, run its phases, check a delivery, close the branch, prepare the next one.",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "author": {
         "name": "Lounis Bou"
       }
