@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "LounisBou's plugins",
-    "version": "2.2.3"
+    "version": "2.2.4"
   },
   "plugins": [
     {
@@ -62,6 +62,18 @@
       },
       "description": "The feature lifecycle as five commands: brainstorm and plan a feature, run its phases, check a delivery, close the branch, prepare the next one.",
       "version": "0.1.1",
+      "author": {
+        "name": "Lounis Bou"
+      }
+    },
+    {
+      "name": "orchestrator",
+      "source": {
+        "source": "github",
+        "repo": "LounisBou/claude-orchestrator"
+      },
+      "description": "Orchestrate implementer sessions: briefs, evidence-based reviews, rotation, succession, tab tooling, context gauge.",
+      "version": "0.26.1",
       "author": {
         "name": "Lounis Bou"
       }
