@@ -160,13 +160,25 @@ else
   [ -f "$SETTINGS" ] || { printf '{}\n' > "$SETTINGS"; chmod 600 "$SETTINGS"; }
   jq empty "$SETTINGS" 2>/dev/null || {
     echo "  $SETTINGS is not valid JSON, aborting." >&2; exit 1; }
-  mkdir -p "$BACKUP_DIR"
-  [ -f "$BACKUP_DIR/settings.json.before" ] || cp "$SETTINGS" "$BACKUP_DIR/settings.json.before"
-  tmp=$(mktemp)
-  jq --arg cmd "$DEST" '.statusLine = {type: "command", command: $cmd, padding: 0}' \
-     "$SETTINGS" > "$tmp"
-  chmod 600 "$tmp"; mv "$tmp" "$SETTINGS"
-  say "statusLine → $DEST"
+
+  # Another tool (the context gauge's tap) can turn statusLine.command into
+  # "<tap script> <previous command>". If it already carries our path, wrapped
+  # or not, the wiring is done: overwriting it would drop the tap.
+  current=$(jq -r '.statusLine.command // ""' "$SETTINGS")
+  case "$current" in
+    *"$DEST"*)
+      say "statusLine already wired to this status bar: $current"
+      ;;
+    *)
+      mkdir -p "$BACKUP_DIR"
+      [ -f "$BACKUP_DIR/settings.json.before" ] || cp "$SETTINGS" "$BACKUP_DIR/settings.json.before"
+      tmp=$(mktemp)
+      jq --arg cmd "$DEST" '.statusLine = {type: "command", command: $cmd, padding: 0}' \
+         "$SETTINGS" > "$tmp"
+      chmod 600 "$tmp"; mv "$tmp" "$SETTINGS"
+      say "statusLine → $DEST"
+      ;;
+  esac
 fi
 
 # --- verification -----------------------------------------------------------
