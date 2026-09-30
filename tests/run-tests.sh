@@ -278,6 +278,43 @@ CLAUDE_CONFIG_DIR="$CFG" bash "$UNINSTALL" >/dev/null
 check_json "uninstall of a foreign command leaves statusLine untouched" "$CFG" \
   '.statusLine.command' "/some/other/statusline.sh"
 
+echo "-- \$HOME spelling --"
+
+# settings.json is free text: a wrapper written by hand, or templated, may
+# spell our path "$HOME/.claude/statusbar/statusline.sh" instead of
+# expanding it. These runs leave CLAUDE_CONFIG_DIR unset and override HOME
+# instead, so CONFIG_DIR resolves the default way ($HOME/.claude) and the
+# literal "$HOME/…" spelling in the fixture really does name our script.
+
+FAKE_HOME=$(fresh_config "")
+mkdir -p "$FAKE_HOME/.claude"
+WRAPPED_HOME='/opt/tap.sh $HOME/.claude/statusbar/statusline.sh'
+printf '{"statusLine":{"type":"command","command":"%s","padding":0},"other":true}' \
+  "$WRAPPED_HOME" > "$FAKE_HOME/.claude/settings.json"
+out=$(env HOME="$FAKE_HOME" bash "$INSTALL")
+check_json "install over a \$HOME-spelled wrapped command leaves it unchanged" \
+  "$FAKE_HOME/.claude" '.statusLine.command' "$WRAPPED_HOME"
+check_json "install over a \$HOME-spelled wrapped command keeps the other key" \
+  "$FAKE_HOME/.claude" '.other' "true"
+if printf '%s' "$out" | grep -qF "$WRAPPED_HOME"; then
+  printf '  ok   %s\n' "install over a \$HOME-spelled wrapped command reports the current command"
+  pass=$((pass + 1))
+else
+  printf '  FAIL %s\n' "install over a \$HOME-spelled wrapped command reports the current command"
+  fail=$((fail + 1))
+fi
+
+FAKE_HOME=$(fresh_config "")
+mkdir -p "$FAKE_HOME/.claude"
+WRAPPED_HOME='/opt/tap.sh $HOME/.claude/statusbar/statusline.sh'
+printf '{"statusLine":{"type":"command","command":"%s","padding":0},"other":true}' \
+  "$WRAPPED_HOME" > "$FAKE_HOME/.claude/settings.json"
+env HOME="$FAKE_HOME" bash "$UNINSTALL" >/dev/null
+check_json "uninstall of a \$HOME-spelled wrapped command keeps the wrapper, drops our path" \
+  "$FAKE_HOME/.claude" '.statusLine.command' "/opt/tap.sh"
+check_json "uninstall of a \$HOME-spelled wrapped command keeps the other key" \
+  "$FAKE_HOME/.claude" '.other' "true"
+
 echo
 printf '%d passed, %d failed\n' "$pass" "$fail"
 [ "$fail" -eq 0 ]
