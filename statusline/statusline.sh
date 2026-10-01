@@ -78,7 +78,8 @@ IFS="$US" read -r h5_pct h5_reset d7_pct d7_reset pr_num pr_state model_name \
     .context_window.used_percentage         // "",
     (.context_window.current_usage
       | if type == "object"
-        then ((.input_tokens // 0) + (.cache_creation_input_tokens // 0) + (.cache_read_input_tokens // 0))
+        then ([.input_tokens, .cache_creation_input_tokens, .cache_read_input_tokens] | map(numbers)
+              | if length == 0 then "" else add end)
         else "" end),
     .context_window.context_window_size     // "",
     .cost.total_lines_added                 // "",

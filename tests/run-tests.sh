@@ -175,6 +175,13 @@ check "toggle off restores the plain segment" \
   "$(ctx_payload 'Orch : build' 1000000 4000 2603 290000 30)" \
 "ctx: 30%"
 
+check "a non-numeric token field leaves the other segments and no tokens" \
+  "$(config_with SHOW_DIRECTORY=0 SHOW_USAGE=0 SHOW_MODEL=1 SHOW_CONTEXT=1 SHOW_CONTEXT_TOKENS=1 \
+    SHOW_SESSION_NAME=0 SHOW_LINES_CHANGED=0)" \
+  "{\"model\":{\"display_name\":\"a-model\"},\"workspace\":{\"current_dir\":\"$EMPTY_DIR\"},\"context_window\":{\"used_percentage\":30,\"context_window_size\":1000000,\"current_usage\":{\"input_tokens\":\"abc\"}}}" \
+"a-model
+ctx: 30%"
+
 check "the warning keeps its mark with the tokens" "$CTX_ONLY" \
   "$(ctx_payload 'Orch : full' 200000 1000 0 169000 85)" \
 "⚠ ctx: 85% · 170k/160k"
