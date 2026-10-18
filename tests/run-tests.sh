@@ -131,6 +131,23 @@ for lvl in "0:" "40:" "41:$L_YELLOW" "70:$L_YELLOW" "71:$L_ORANGE" "79:$L_ORANGE
   check_level "quota at $p%" "$actual" "$qwant"
 done
 
+# The whole raw second line with the context and both quotas shown: every
+# sequence, its reset, the bar and the reset tail inside the coloured zone.
+R="${ESC}[0m"
+for lvl in "75:${L_ORANGE}:8:" "85:${L_RED}:9:⚠ "; do
+  IFS=: read -r p col filled mark <<<"$lvl"
+  bar=$(printf '%*s' "$filled" '' | sed 's/ /▓/g')$(printf '%*s' "$((10 - filled))" '' | sed 's/ /░/g')
+  want="${col}${mark}ctx: ${p}%${R} │ ${col}${mark}5h: ${p}% ${bar} → 2h13${R} │ ${col}${mark}7d: ${p}% ${bar} → 3d${R}"
+  payload="{\"workspace\":{\"current_dir\":\"$EMPTY_DIR\"},\"context_window\":{\"used_percentage\":$p},\"rate_limits\":{\"five_hour\":{\"used_percentage\":$p,\"resets_at\":$IN_2H},\"seven_day\":{\"used_percentage\":$p,\"resets_at\":$IN_3D}}}"
+  actual=$(line2_of "$payload")
+  if [ "$actual" = "$want" ]; then
+    printf '  ok   %s\n' "whole line 2 at $p%"; pass=$((pass + 1))
+  else
+    printf '  FAIL %s\n' "whole line 2 at $p%"
+    printf '       want:   %q\n       actual: %q\n' "$want" "$actual"; fail=$((fail + 1))
+  fi
+done
+
 check "quota at 80 carries the warning" "$ALL_ON" \
   "{\"workspace\":{\"current_dir\":\"$EMPTY_DIR\"},\"rate_limits\":{\"five_hour\":{\"used_percentage\":80,\"resets_at\":$IN_2H}}}" \
 "plain
