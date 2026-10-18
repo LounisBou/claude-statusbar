@@ -48,6 +48,11 @@ RESET=$'\033[0m'
 # Orange between yellow and red. 256-colour 208 (#ff8700) is bright enough
 # on a dark background and saturated enough to stay legible on a light one.
 ORANGE=$'\033[38;5;208m'
+
+# Dark yellow for 41-70 %. The basic yellow (0;33) is nearly invisible on a
+# light background, and a bright yellow is worse. 256-colour 136 (#af8700) reads
+# on white and on near-black alike, and stays clearly apart from the orange.
+AMBER=$'\033[38;5;136m'
 ITALIC=$'\033[3m'
 
 separator=" │ "
@@ -88,11 +93,11 @@ IFS="$US" read -r h5_pct h5_reset d7_pct d7_reset pr_num pr_state model_name \
 is_number() { case "$1" in ''|*[!0-9]*) return 1 ;; *) return 0 ;; esac; }
 
 # Level colour for an integer percentage: the default foreground up to 40
-# (prints nothing), yellow to 70, orange to 79, red from 80.
+# (prints nothing), dark yellow to 70, orange to 79, red from 80.
 usage_color() {
   local p=$1
   if   [ "$p" -le 40 ]; then :
-  elif [ "$p" -le 70 ]; then printf '%s' "$YELLOW"
+  elif [ "$p" -le 70 ]; then printf '%s' "$AMBER"
   elif [ "$p" -le 79 ]; then printf '%s' "$ORANGE"
   else printf '%s' "$RED"
   fi

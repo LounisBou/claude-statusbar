@@ -95,7 +95,7 @@ check "0% fills no block" "$ALL_ON" \
 echo "== readable levels =="
 
 ESC=$'\033'
-L_YELLOW="${ESC}[0;33m"
+L_YELLOW="${ESC}[38;5;136m"
 L_ORANGE="${ESC}[38;5;208m"
 L_RED="${ESC}[0;31m"
 
