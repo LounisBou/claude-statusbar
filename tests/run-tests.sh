@@ -3,7 +3,8 @@
 #
 # Each case builds a stdin payload and an isolated settings file
 # (STATUSBAR_CONFIG), then compares the ANSI-stripped output against an
-# expected value. Reset epochs are derived from `now` so countdowns are
+# expected value. The readable levels section reads the raw colour sequences
+# instead. Reset epochs are derived from `now` so countdowns are
 # deterministic.
 
 set -u
@@ -100,7 +101,7 @@ L_ORANGE="${ESC}[38;5;208m"
 L_RED="${ESC}[0;31m"
 
 # line2_of <payload> -> raw second line (colour sequences kept)
-CTX_ONLY=$(config_with SHOW_CONTEXT=1 SHOW_USAGE=0)
+CTX_LEVEL=$(config_with SHOW_CONTEXT=1 SHOW_USAGE=0)
 
 line2_of() { printf '%s' "$1" | STATUSBAR_CONFIG="${2:-$ALL_ON}" bash "$SCRIPT" | sed -n 2p; }
 
@@ -122,7 +123,7 @@ check_level() {
 for lvl in "0:" "40:" "41:$L_YELLOW" "70:$L_YELLOW" "71:$L_ORANGE" "79:$L_ORANGE" "80:${L_RED}⚠ " ; do
   p=${lvl%%:*}; want=${lvl#*:}
   payload="{\"workspace\":{\"current_dir\":\"$EMPTY_DIR\"},\"context_window\":{\"used_percentage\":$p}}"
-  actual=$(line2_of "$payload" "$CTX_ONLY")
+  actual=$(line2_of "$payload" "$CTX_LEVEL")
   check_level "context at $p%" "$actual" "$want"
   case "$want" in "${L_RED}"*) qwant="${L_RED}⚠ 5h: $p%" ;; "") qwant="" ;; *) qwant="${want}5h: $p%" ;; esac
   payload="{\"workspace\":{\"current_dir\":\"$EMPTY_DIR\"},\"rate_limits\":{\"five_hour\":{\"used_percentage\":$p,\"resets_at\":$IN_2H}}}"
